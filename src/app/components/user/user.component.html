@@ -1,0 +1,347 @@
+<script src="excelexportjs.js"></script>
+<div>
+  <header>
+    <h1 class="top-bar">Pallet Storage</h1>
+  </header>
+</div>
+<div>
+  <div class="row">
+
+
+<!------------------------------------------------------------------------------------------>
+    <!-- SEARCH PALLET  -->
+<!------------------------------------------------------------------------------------------>
+
+
+
+    <div class="col-lg-3">
+      <!-- <app-p-search></app-p-search> -->
+      <div class="container info-box5">
+        <!--  -->
+      <form role="form" #searchform="ngForm">
+        <!--  -->
+        <!-- row 1 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>ชื่อลูกค้า :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <!-- <div class="col-auto"></div> -->
+          <!-- column 3 -->
+          <div class="col-6">
+            <input type="text"
+            class="name-text1 word-search2 form-control"
+            [(ngModel)] ="search.Name" [ngModelOptions] ="{standalone: true}"
+            >
+          </div>
+        </div>
+
+        <!-- row 2 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>Date From :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <!-- <input type="date" id="birthday" name="birthday"> -->
+            <input type="date"
+            class="name-text1 word-search2 form-control"
+            id="dateDefault1"
+            (change)="updateFromDate($event)"
+            name="DateForm"
+            [(ngModel)] ="search.DateFrom" [ngModelOptions] ="{standalone: true}"
+            >
+          </div>
+        </div>
+
+        <!-- row 3 -->
+        <div class="row">
+        <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>Date To :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <!-- <input type="date" id="birthday" name="birthday"> -->
+            <input type="date"
+            class="name-text1 word-search2 form-control"
+            id="dateDefault2"
+            (change)="updateToDate($event)"
+            name="DateTo"
+            [(ngModel)] ="search.DateTo" [ngModelOptions] ="{standalone: true}"
+            >
+          </div>
+        </div>
+
+        <!-- row 4 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>สถานะ :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <!-- <input type="text" class="name-text1 word-search2"> -->
+
+            <select class="custom-select name-text1 form-control"
+            [(ngModel)]="search.Status" [ngModelOptions] ="{standalone: true}">
+              <option *ngFor="let sta of Res1" value="{{sta.status}}">{{sta.status}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- row 5 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <br>
+            <button type="submit" class="btn btn-primary mybtn1 word-search1" (click)="onSearch()">ค้นหา</button>
+          </div>
+        </div>
+      </form>
+      </div>
+      <!--  -->
+    </div>
+
+
+
+<!------------------------------------------------------------------------------------------>
+    <!-- INPUT PALLET  -->
+<!------------------------------------------------------------------------------------------>
+
+
+
+    <div class="col-lg-3">
+      <!-- <app-p-input></app-p-input> -->
+      <div class="container info-box4">
+        <form role="form" #inputform="ngForm" [formGroup]="formValue" (submit)="onSearch()">
+        <!-- row 1 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>สถานะ :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <!-- <div class="col-auto"></div> -->
+          <!-- column 3 -->
+          <div class="col-6">
+            <select class="custom-select name-text1 bg-1 form-control"
+            name="Status"
+            formControlName="status"
+            >
+              <option *ngFor="let s of Sta2" value="{{s}}">{{s}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- row 2 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>Date :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <!-- <input type="date" id="birthday" name="birthday"> -->
+            <input type="date"
+            class="name-text1 word-search2 bg-1 form-control"
+            id="dateDefault3"
+            (change)="updateInputDate($event)"
+            name="Date"
+            formControlName="date"
+
+            >
+          </div>
+        </div>
+
+        <!-- row 3 -->
+        <div class="row">
+        <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>จำนวน :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <input type="text"
+            class="name-text1 word-search2 bg-1 form-control"
+            name="Qty"
+            formControlName="qty"
+            >
+          </div>
+        </div>
+
+        <!-- row 4 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+            <div class="word-search1">
+              <p>Remark :</p>
+            </div>
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <!-- <input type="text" class="name-text1 word-search2"> -->
+
+            <!-- ยังทำ Dropdown ไม่ได้ -->
+            <select class="custom-select name-text1 bg-1 form-control"
+            name="Remark"
+            formControlName="remark"
+            >
+              <option *ngFor="let R of Res3" value="{{R.remark}}">{{R.remark}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- row 5 -->
+        <div class="row">
+          <!-- column 1 -->
+          <div class="col-5">
+          </div>
+          <!-- column 2 -->
+          <div class="col-6">
+            <br>
+            <button type="submit" class="btn btn-warning mybtn2 word-search1" (click)="postDataPallet()">+ เพิ่มรายการ</button>
+          </div>
+        </div>
+      </form>
+      </div>
+      <!--  -->
+    </div>
+
+
+
+<!------------------------------------------------------------------------------------------>
+    <!-- PALLET LIST  -->
+<!------------------------------------------------------------------------------------------>
+
+
+
+    <div class="col-lg-6">
+      <!-- <app-p-list></app-p-list> -->
+      <div class="container">
+        <p>ยอดรวมภายในทั้งหมด(In Store)ภายในปี ปัจจุบัน</p>
+        <!-- row 1 -->
+        <div class="row" *ngFor="let V of Res4">
+          <!-- column 1 -->
+          <div class="col word-search1 info-box3" style="background-color: rgb(49, 172, 49);">
+              <p><strong>{{V.PA}}</strong><br>ยอดจ่ายรวม</p>
+          </div>
+          <!-- column 2 -->
+          <div class="col word-search1 info-box3" style="background-color: rgb(253, 196, 74);">
+            <p><strong>{{V.PB}}</strong><br>ยอดคืนรวม</p>
+          </div>
+          <!-- column 3 -->
+          <div class="col word-search1 info-box3" style="background-color: rgb(80, 212, 245);">
+            <p><strong>{{V.PB}}</strong><br>ยอดลูกค้าค้าง</p>
+          </div>
+          <!-- column 4 -->
+          <div class="col word-search1 info-box3" style="background-color: rgb(255, 30, 30);">
+            <p><strong>{{V.PB}}</strong><br>ยอดเสีย</p>
+          </div>
+          <!-- column 5 -->
+          <div class="col word-search1 info-box3" style="background-color: rgb(117, 252, 99);">
+            <p><strong>{{V.PB}}</strong><br>คงเหลือรวม</p>
+          </div>
+        </div>
+        <p>ยอดรวมเฉพาะลูกค้าที่เลือก ณ วันที่ {{myDateF | date: 'dd/MM/yyyy'}} - {{myDateT | date: 'dd/MM/yyyy'}} </p>
+        <!-- row 2 -->
+        <div class="row" *ngFor="let v of Res5">
+          <!-- column 1 -->
+          <div class="col word-search1 info-box3" style="background-color: rgb(49, 172, 49);">
+            <p><strong>{{v.pa}}</strong><br>ยอดจ่ายรวม</p>
+        </div>
+        <!-- column 2 -->
+        <div class="col word-search1 info-box3" style="background-color: rgb(253, 196, 74);">
+          <p><strong>{{v.pb}}</strong><br>ยอดคืนรวม</p>
+        </div>
+        <!-- column 3 -->
+        <div class="col word-search1 info-box3" style="background-color: rgb(80, 212, 245);">
+          <p><strong>{{v.pc}}</strong><br>ยอดลูกค้าค้าง</p>
+        </div>
+        <!-- column 4 -->
+        <div class="col word-search1 info-box3" style="background-color: rgb(255, 30, 30);">
+          <p><strong>{{v.pd}}</strong><br>ยอดเสีย</p>
+        </div>
+          <div class="col word-search1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="row">
+  <br><br>
+</div>
+
+
+
+<!------------------------------------------------------------------------------------------>
+    <!-- PALLET TABLE  -->
+<!------------------------------------------------------------------------------------------>
+
+
+
+<div class="row">
+ <!-- <app-p-table></app-p-table> -->
+ <hr style="margin-left: 1cm;margin-right: 1cm;margin-bottom: .1rem;">
+<div class="format-1" [hidden]="!StatusTable">
+  <button type="button" class="btn btn-warning mybtn2 word-search1" style="float: right; margin-left: .5cm;" (click)="exportToExcel()">Export xlsx</button>
+  <button type="button" class="btn btn-warning mybtn2 word-search1" style="float: right;" (click)="exportToCSV()">Export CSV</button>
+  <br><br>
+  <table class="table table-bordered word-search1">
+    <thead style="background-color: aliceblue;">
+      <tr>
+        <!-- head 1 -->
+        <th scope="col">Date</th>
+        <!-- head 2 -->
+        <th scope="col">Time</th>
+        <!-- head 3 -->
+        <th scope="col">Pallet</th>
+        <!-- head 4 -->
+        <th scope="col">Status</th>
+        <!-- head 5 -->
+        <th scope="col">Qty</th>
+        <!-- head 6 -->
+        <th scope="col">Remark</th>
+        <!-- head 7 -->
+        <th scope="col">Log by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let R of PalletData">
+        <td>{{R.date  | date: 'dd/MM/yyyy' }}</td>
+        <td>{{R.time}}</td>
+        <td>{{R.pallet}}</td>
+        <td>{{R.status}}</td>
+        <td>{{R.qty}}</td>
+        <td>{{R.remark}}</td>
+        <td>{{R.log}}</td>
+        <!-- <td>
+          <button class="btn btn-danger" (click)="deleteDataPallet(row)">Delete</button>
+        </td> -->
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
