@@ -317,7 +317,6 @@ export class UserComponent implements OnInit {
   }
 
 
-
   getSearch() {
     this.search = new Search();
   }
@@ -330,6 +329,8 @@ export class UserComponent implements OnInit {
     this.displayTable();
 
   }
+  ////////////////////
+
 
   // exportFile function //
   exportToExcel() {
