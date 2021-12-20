@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 })
 export class ApiService {
 
-  urlTest = 'http://localhost:3004/posts';
-  urlTest1 = 'http://localhost:4200/assets/data.json '
+  urlTest = 'http://localhost:3000/posts';
+  // urlTest = '../palletlist.json/post';
 
   constructor(private http: HttpClient) { }
 

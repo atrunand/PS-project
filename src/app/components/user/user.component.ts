@@ -30,7 +30,7 @@ const options = {
   decimalSeparator: '.',
   showLabels: true,
   showTitle: true,
-  title: 'CSV',
+  title: 'Pallet Storage',
   useTextFile: false,
   useBom: true,
   useKeysAsHeaders: true,
@@ -103,6 +103,46 @@ export class UserComponent implements OnInit {
   // displayTable() function //
   StatusTable: boolean = false;
 
+  // countValue //
+  c_value: any;
+  changeToNum_pa!: number;
+  changeToNum_pb!: number;
+  changeToNum_pc!: number;
+  changeToNum_pd!: number;
+
+  changeToNum_qty!: number;
+  cNum2 = 0;
+  NNN!: string;
+  getNewVar = 0;
+  keepValue = 0;
+  keepValue1 = 0;
+  //
+  payPallet = 0;
+  returnPallet = 0;
+  stayPallet = 0;
+  wastePallet = 0;
+  // A
+  payPallet_A = 200;
+  returnPallet_A = 100;
+  stayPallet_A = 100;
+  wastePallet_A = 40;
+  // B
+  payPallet_B = 500;
+  returnPallet_B = 300;
+  stayPallet_B = 200;
+  wastePallet_B = 100;
+  // C
+  payPallet_C = 1000;
+  returnPallet_C = 600;
+  stayPallet_C = 400;
+  wastePallet_C = 200;
+  // D
+  payPallet_D = 600;
+  returnPallet_D = 200;
+  stayPallet_D = 400;
+  wastePallet_D = 90;
+
+  Res6: any = [];
 
   constructor(
     private http: HttpClient,
@@ -122,6 +162,7 @@ export class UserComponent implements OnInit {
     this.getValueInStoreAll();
     this.getValueInStorePerCus();
     this.getSearch();
+
 
     this.formValue = this.fb.group({
       name: [''],
@@ -176,8 +217,10 @@ export class UserComponent implements OnInit {
 
   postDataPallet() {
     this.createNewData();
+
     if (this.object.Name != null) {
       this.pushNewData()
+      this.countValueInStorePerCus();
     } else if (this.object.Name == null) {
       Swal.fire('Please enter information');
     }
@@ -218,7 +261,9 @@ export class UserComponent implements OnInit {
     this.http.get(this.url5).subscribe((response:{}) => {
       this.response5 = response;
       this.Res5 = this.response5.result
+
     });
+
   }
   //////////////////
 
@@ -296,8 +341,7 @@ export class UserComponent implements OnInit {
       }
     }
     this.PalletData = this.p_data;
-    // console.log(this.PalletData); // เป็นตัวแปรที่จะเก็บข้อมูลของ Pallet ทั้งหมด เก็บในส่วนของ Input ที่ใส่ข้อมูลเพิ่มด้วย
-
+    console.log(this.PalletData); // เป็นตัวแปรที่จะเก็บข้อมูลของ Pallet ทั้งหมด เก็บในส่วนของ Input ที่ใส่ข้อมูลเพิ่มด้วย
   }
 
   displayTable() {
@@ -327,9 +371,74 @@ export class UserComponent implements OnInit {
     this.enterData();
     this.checkConditionData();
     this.displayTable();
-
   }
+
   ////////////////////
+
+  // value list function //
+
+  checkNameToValue1() {
+    if ( this.myname == 'A') {
+      this.payPallet = this.payPallet_A;
+      this.returnPallet = this.returnPallet_A;
+      this.stayPallet = this.stayPallet_A;
+      this.wastePallet = this.wastePallet_A;
+    }else if ( this.myname == 'B' ) {
+      this.payPallet = this.payPallet_B;
+      this.returnPallet = this.returnPallet_B;
+      this.stayPallet = this.stayPallet_B;
+      this.wastePallet = this.wastePallet_B;
+    }else if ( this.myname == 'C' ) {
+      this.payPallet = this.payPallet_C;
+      this.returnPallet = this.returnPallet_C;
+      this.stayPallet = this.stayPallet_C;
+      this.wastePallet = this.wastePallet_C;
+    }else if ( this.myname == 'D' ) {
+      this.payPallet = this.payPallet_D;
+      this.returnPallet = this.returnPallet_D;
+      this.stayPallet = this.stayPallet_D;
+      this.wastePallet = this.wastePallet_D;
+    }
+
+    console.log(this.payPallet)
+    console.log(this.returnPallet)
+    console.log(this.stayPallet)
+    console.log(this.wastePallet)
+  }
+
+  checkNameToValue() {
+    for (let i = 0; i < this.Res5.length; i++) {
+      if( this.myname == this.Res5[i].name ) {
+        this.payPallet = Number(this.Res5[i].pa);
+        this.returnPallet = Number( this.Res5[i].pb);
+        this.stayPallet = Number( this.Res5[i].pc);
+        this.wastePallet = Number( this.Res5[i].pd);
+      }
+    }
+  }
+
+  countValueInStorePerCus() {
+    this.changeToNum_qty = Number(this.formValue.value.qty);
+
+    if (this.myDataPallet.status == 'จ่าย') {
+      this.keepValue = this.changeToNum_qty;
+
+      this.payPallet = this.payPallet + this.keepValue; //ยอดจ่ายรวม(แสดงผล)
+
+      this.stayPallet = this.stayPallet + this.keepValue; //ยอดลูกค้าค้าง(แสดงผล)
+
+    }else if (this.myDataPallet.status == 'คืน') {
+      this.keepValue = this.changeToNum_qty;
+
+      if (this.myDataPallet.remark != null) {
+        this.wastePallet = this.wastePallet + this.keepValue; //ยอดเสีย(แสดงผล)
+      }
+
+      this.returnPallet = this.returnPallet + this.keepValue; //ยอดคืนรวม(แสดงผล)
+      this.stayPallet = this.payPallet - this.returnPallet; //ยอดลูกค้าค้าง(แสดงผล)
+    }
+  }
+  /////////////////////////
 
 
   // exportFile function //
@@ -367,7 +476,7 @@ interface myStatus {
 }
 
 class Search {
-  Name: any;
+  Name: any; // any
   DateFrom: any;
   DateTo: any;
   Status: any;

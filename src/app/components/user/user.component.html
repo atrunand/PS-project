@@ -107,7 +107,7 @@
           <!-- column 2 -->
           <div class="col-6">
             <br>
-            <button type="submit" class="btn btn-primary mybtn1 word-search1" (click)="onSearch()">ค้นหา</button>
+            <button type="submit" class="btn btn-primary mybtn1 word-search1" (click)="onSearch();checkNameToValue()">ค้นหา</button>
           </div>
         </div>
       </form>
@@ -263,22 +263,22 @@
         </div>
         <p>ยอดรวมเฉพาะลูกค้าที่เลือก ณ วันที่ {{myDateF | date: 'dd/MM/yyyy'}} - {{myDateT | date: 'dd/MM/yyyy'}} </p>
         <!-- row 2 -->
-        <div class="row" *ngFor="let v of Res5">
+        <div class="row">
           <!-- column 1 -->
           <div class="col word-search1 info-box3" style="background-color: rgb(49, 172, 49);">
-            <p><strong>{{v.pa}}</strong><br>ยอดจ่ายรวม</p>
+            <p><strong>{{this.payPallet}}</strong><br>ยอดจ่ายรวม</p>
         </div>
         <!-- column 2 -->
         <div class="col word-search1 info-box3" style="background-color: rgb(253, 196, 74);">
-          <p><strong>{{v.pb}}</strong><br>ยอดคืนรวม</p>
+          <p><strong>{{this.returnPallet}}</strong><br>ยอดคืนรวม</p>
         </div>
         <!-- column 3 -->
         <div class="col word-search1 info-box3" style="background-color: rgb(80, 212, 245);">
-          <p><strong>{{v.pc}}</strong><br>ยอดลูกค้าค้าง</p>
+          <p><strong>{{this.stayPallet}}</strong><br>ยอดลูกค้าค้าง</p>
         </div>
         <!-- column 4 -->
         <div class="col word-search1 info-box3" style="background-color: rgb(255, 30, 30);">
-          <p><strong>{{v.pd}}</strong><br>ยอดเสีย</p>
+          <p><strong>{{this.wastePallet}}</strong><br>ยอดเสีย</p>
         </div>
           <div class="col word-search1"></div>
         </div>

@@ -8,3 +8,7 @@ export class dataPallet {
   remark: string = '';
   log: string = '';
 }
+
+
+
+
